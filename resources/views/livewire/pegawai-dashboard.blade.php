@@ -181,37 +181,6 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Salary Slip Card -->
-            <div class="bg-gray-800/50 rounded-3xl p-6 shadow-lg border border-gray-700">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-white">Slip Gaji</h2>
-                </div>
-                
-                @if($salarySlips && $salarySlips->count() > 0)
-                    <div class="space-y-3">
-                        @foreach($salarySlips as $slip)
-                            <div class="bg-gray-700/30 rounded-xl p-4 flex justify-between items-center">
-                                <div>
-                                    <h4 class="font-medium text-white">{{ $slip->period }}</h4>
-                                    <p class="text-sm text-gray-400">{{ $slip->date }}</p>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="text-white mr-3">Rp {{ number_format($slip->amount, 0, ',', '.') }}</span>
-                                    <a href="#" class="bg-blue-500 hover:bg-blue-600 transition-colors duration-200 p-2 rounded-lg">
-                                        <i class="fas fa-download text-white"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center py-6 text-gray-500">
-                        <i class="fas fa-file-invoice-dollar text-3xl mb-2"></i>
-                        <p>Belum ada slip gaji tersedia</p>
-                    </div>
-                @endif
-            </div>
         </div>
     </div>
     

@@ -12,7 +12,7 @@ class CutiRequest extends Component
 {
     public $tanggal_mulai;
     public $tanggal_akhir;
-    public $keterangan;
+    public $alasan;
     public $durasi = 0;
     public $sisaCuti = 0;
     public $pegawai;
@@ -90,13 +90,13 @@ class CutiRequest extends Component
         $this->validate([
             'tanggal_mulai' => 'required|date',
             'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
-            'keterangan' => 'required|min:5',
+            'alasan' => 'required|min:5',
         ], [
             'tanggal_mulai.required' => 'Tanggal mulai harus diisi',
             'tanggal_akhir.required' => 'Tanggal akhir harus diisi',
             'tanggal_akhir.after_or_equal' => 'Tanggal akhir harus setelah atau sama dengan tanggal mulai',
-            'keterangan.required' => 'Keterangan harus diisi',
-            'keterangan.min' => 'Keterangan minimal 5 karakter',
+            'alasan.required' => 'Keterangan harus diisi',
+            'alasan.min' => 'Keterangan minimal 5 karakter',
         ]);
         
         // Check if employee has enough leave days
@@ -111,14 +111,14 @@ class CutiRequest extends Component
             'tanggal_mulai' => $this->tanggal_mulai,
             'tanggal_akhir' => $this->tanggal_akhir,
             'durasi' => $this->durasi,
-            'keterangan' => $this->keterangan,
+            'alasan' => $this->alasan,
             'status' => 'pending', // Default status is pending
         ]);
         
         session()->flash('message', 'Pengajuan cuti berhasil dibuat dan sedang menunggu persetujuan');
         
         // Reset form
-        $this->reset(['keterangan']);
+        $this->reset(['alasan']);
         $this->tanggal_mulai = Carbon::now()->format('Y-m-d');
         $this->tanggal_akhir = Carbon::now()->addDay()->format('Y-m-d');
         $this->updateDurasi();

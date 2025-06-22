@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\UnitKerja;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -94,13 +96,48 @@ class PegawaiManager extends Component
         $this->reset(['nip', 'nama', 'jabatan_id', 'unit_kerja_id', 'gaji', 'pegawaiId', 'isEdit']);
     }
 
+    /**
+     * Delete the specified employee.
+     */
     public function delete($id)
     {
         try {
-            Pegawai::find($id)->delete();
+            DB::beginTransaction();
+            
+            $pegawai = Pegawai::findOrFail($id);
+            
+            // Check if the employee has related data
+            if ($pegawai->absensi()->count() > 0 || $pegawai->cuti()->count() > 0) {
+                session()->flash('error', 'Tidak dapat menghapus pegawai yang memiliki data absensi atau cuti. Nonaktifkan pegawai sebagai alternatif.');
+                return;
+            }
+            
+            // If employee has a user account, delete or detach it
+            if ($pegawai->user_id) {
+                $user = User::find($pegawai->user_id);
+                if ($user) {
+                    // Option 1: Delete the user account
+                    $user->delete();
+                    
+                    // Option 2 (alternative): Just detach the relationship
+                    // $pegawai->user_id = null;
+                    // $pegawai->save();
+                }
+            }
+            
+            // Now delete the employee
+            $pegawai->delete();
+            
+            DB::commit();
+            
             session()->flash('message', 'Pegawai berhasil dihapus!');
         } catch (\Exception $e) {
-            session()->flash('error', 'Error: ' . $e->getMessage());
+            DB::rollBack();
+            
+            // Log the error for debugging
+            \Illuminate\Support\Facades\Log::error('Error deleting employee: ' . $e->getMessage());
+            
+            session()->flash('error', 'Terjadi kesalahan saat menghapus pegawai: ' . $e->getMessage());
         }
     }
 }

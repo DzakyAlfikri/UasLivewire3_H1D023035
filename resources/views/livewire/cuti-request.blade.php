@@ -92,9 +92,9 @@
             </div>
             
             <div class="mb-6">
-                <label for="keterangan" class="block text-sm text-gray-400 mb-1">Alasan Cuti</label>
-                <textarea wire:model="keterangan" id="keterangan" rows="4" class="w-full rounded-xl bg-gray-800/80 border border-gray-700 text-white py-3 px-4 focus:border-orange-500 focus:ring-1 focus:ring-orange-500" placeholder="Berikan alasan pengajuan cuti..."></textarea>
-                @error('keterangan') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+                <label for="alasan" class="block text-sm text-gray-400 mb-1">Alasan Cuti</label>
+                <textarea wire:model="alasan" id="alasan" rows="4" class="w-full rounded-xl bg-gray-800/80 border border-gray-700 text-white py-3 px-4 focus:border-orange-500 focus:ring-1 focus:ring-orange-500" placeholder="Berikan alasan pengajuan cuti..."></textarea>
+                @error('alasan') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
             </div>
             
             <div class="flex justify-end">
@@ -134,7 +134,7 @@
                             <td class="py-4">{{ $cuti->created_at->format('d/m/Y') }}</td>
                             <td class="py-4">{{ Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d/m/Y') }} - {{ Carbon\Carbon::parse($cuti->tanggal_akhir)->format('d/m/Y') }}</td>
                             <td class="py-4">{{ $cuti->durasi }} hari</td>
-                            <td class="py-4 max-w-xs truncate">{{ $cuti->keterangan }}</td>
+                            <td class="py-4 max-w-xs truncate">{{ $cuti->alasan }}</td>
                             <td class="py-4">
                                 <span class="px-2 py-1 rounded-full text-xs 
                                     {{ $cuti->status == 'approved' ? 'bg-green-100 text-green-800' : 

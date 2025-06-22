@@ -21,6 +21,16 @@
         </div>
     @endif
 
+    @if (session()->has('error'))
+        <div class="bg-red-900/20 text-red-400 border border-red-900/30 rounded-xl p-4 mb-6 flex items-center">
+            <i class="fas fa-exclamation-circle mr-3 text-xl"></i>
+            <span>{{ session('error') }}</span>
+            <button type="button" class="ml-auto text-red-500 hover:text-red-300" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    @endif
+
     <div class="bg-gray-800/50 rounded-3xl p-6 shadow-lg border border-gray-700">
         <div class="overflow-x-auto">
             <table class="w-full">
